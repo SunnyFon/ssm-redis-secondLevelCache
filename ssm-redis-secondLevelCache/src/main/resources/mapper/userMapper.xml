@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sunnyfe.template.dao.UserDao">
+
+	<!--开始二级缓存-->
+	<cache type="com.sunnyfe.template.redis.MybatisRedisCache" />
+
+	<resultMap id="BaseResultMap" type="com.sunnyfe.template.pojo.User">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="user_name" jdbcType="VARCHAR" property="userName" />
+		<result column="password" jdbcType="VARCHAR" property="password" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+    id, user_name, password
+  </sql>
+    <select id="findAll"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+			user
+	</select>
+
+	<insert id="insertUser" parameterType="com.sunnyfe.template.pojo.User">
+		insert into user (id,user_name,password) values (#{id},#{userName},#{password})
+	</insert>
+
+	<update id="updateUser" parameterType="com.sunnyfe.template.pojo.User">
+		update user set user_name = #{userName}, password = #{password} where id = #{id}
+	</update>
+
+	<delete id="deleteUser" parameterType="java.lang.String">
+		delete from user where id = #{id}
+	</delete>
+</mapper>

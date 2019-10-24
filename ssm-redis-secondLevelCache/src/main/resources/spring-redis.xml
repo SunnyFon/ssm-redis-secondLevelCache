@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+    <!--redis数据源-->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <!-- 最大连接数 -->
+        <property name="maxTotal" value="${jedis.pool.maxActive}"/>
+        <!-- 最大空闲连接数 -->
+        <property name="maxIdle" value="${jedis.pool.maxIdle}"/>
+        <!-- 获取连接时的最大等待毫秒数,小于零:阻塞不确定的时间,默认-1 -->
+        <property name="maxWaitMillis" value="${jedis.pool.maxWait}"/>
+        <!-- 在获取连接的时候检查有效性, 默认false -->
+        <property name="testOnBorrow" value="${jedis.pool.testOnBorrow}"/>
+        <!-- 在返回的时候检查有效性, 默认false -->
+        <property name="testOnReturn" value="${jedis.pool.testOnReturn}"/>
+        <!-- 在空闲时检查有效性, 默认false -->
+        <property name="testWhileIdle" value="${jedis.pool.testWhileIdle}" />
+        <!-- 连接耗尽时是否阻塞, false报异常,ture阻塞直到超时, 默认true -->
+        <property name="blockWhenExhausted" value="${jedis.pool.blockWhenExhausted}" />
+    </bean>
+
+    <!-- Redis集群配置 -->
+<!--    <bean id="redisClusterConfig" class="org.springframework.data.redis.connection.RedisClusterConfiguration">-->
+<!--        <property name="maxRedirects" value="${redis.cluster.maxRedirects}"></property>-->
+<!--        <property name="clusterNodes">-->
+<!--            <set>-->
+<!--                <bean class="org.springframework.data.redis.connection.RedisNode">-->
+<!--                    <constructor-arg name="host" value="${redis.cluster.host1}"></constructor-arg>-->
+<!--                    <constructor-arg name="port" value="${redis.cluster.port1}"></constructor-arg>-->
+<!--                </bean>-->
+
+<!--                <bean class="org.springframework.data.redis.connection.RedisNode">-->
+<!--                    <constructor-arg name="host" value="${redis.cluster.host2}"></constructor-arg>-->
+<!--                    <constructor-arg name="port" value="${redis.cluster.port2}"></constructor-arg>-->
+<!--                </bean>-->
+<!--                <bean class="org.springframework.data.redis.connection.RedisNode">-->
+<!--                    <constructor-arg name="host" value="${redis.cluster.host3}"></constructor-arg>-->
+<!--                    <constructor-arg name="port" value="${redis.cluster.port3}"></constructor-arg>-->
+<!--                </bean>-->
+<!--                <bean class="org.springframework.data.redis.connection.RedisNode">-->
+<!--                    <constructor-arg name="host" value="${redis.cluster.host4}"></constructor-arg>-->
+<!--                    <constructor-arg name="port" value="${redis.cluster.port4}"></constructor-arg>-->
+<!--                </bean>-->
+<!--                <bean class="org.springframework.data.redis.connection.RedisNode">-->
+<!--                    <constructor-arg name="host" value="${redis.cluster.host5}"></constructor-arg>-->
+<!--                    <constructor-arg name="port" value="${redis.cluster.port5}"></constructor-arg>-->
+<!--                </bean>-->
+<!--                <bean class="org.springframework.data.redis.connection.RedisNode">-->
+<!--                    <constructor-arg name="host" value="${redis.cluster.host6}"></constructor-arg>-->
+<!--                    <constructor-arg name="port" value="${redis.cluster.port6}"></constructor-arg>-->
+<!--                </bean>-->
+<!--            </set>-->
+<!--        </property>-->
+<!--    </bean>-->
+
+    <!--Spring-redis连接池管理工厂-->
+    <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <!-- 集群版配置  -->
+        <!-- <constructor-arg name="clusterConfig" ref="redisClusterConfig"/> -->
+        
+        <!-- 单机版配置 -->
+        <property name="hostName" value="${redis.hostName}"/>
+        <property name="port" value="${redis.port}"/>
+        <property name="database" value="${redis.database}"/>
+        
+        <!-- 连接池配置参数 -->
+        <property name="poolConfig" ref="jedisPoolConfig"/>
+    </bean>
+
+</beans>
