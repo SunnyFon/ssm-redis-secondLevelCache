@@ -18,7 +18,7 @@
     <junit.version>4.11</junit.version>
     <spring.version>4.3.3.RELEASE</spring.version>
     <mybatis.version>3.2.8</mybatis.version>
-    <logback.version>1.1.2</logback.version>
+    <logback.version>1.2.0</logback.version>
     <jackson.version>2.9.0</jackson.version>
     <dbcp2.version>2.1.1</dbcp2.version>
     <swagger2.version>2.4.0</swagger2.version>
